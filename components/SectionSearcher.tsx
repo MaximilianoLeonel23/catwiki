@@ -4,7 +4,8 @@ import bannerImgLg from "@/assets/images/HeroImagelg.png";
 import Image from "next/image";
 import { LogoSvg } from "@/assets/images/images";
 import { Breed } from "@/types/types";
-
+import { SearchIcon } from "@/assets/icons/icons";
+import Link from "next/link";
 const SectionSearcher = () => {
   const [searchedBreed, setSearchedBreed] = useState<string>("");
   const [breeds, setBreeds] = useState<Breed[]>([]);
@@ -43,21 +44,31 @@ const SectionSearcher = () => {
               </h1>
             </div>
             <div className="flex flex-col gap-y-4">
-              <input
-                type="text"
-                className="py-4 px-8 bg-white text-primary-gray-700 placeholder:text-primary-gray-700 placeholder:text-lg text-lg border-none rounded-full outline-none"
-                placeholder="Enter your breed"
-                defaultValue={searchedBreed}
-                onChange={(e) => setSearchedBreed(e.target.value)}
-              />
+              <div className="relative flex items-center searchIconDark">
+                <input
+                  type="text"
+                  className="w-full py-4 px-8 bg-white text-primary-gray-700 placeholder:text-primary-gray-700 placeholder:text-lg text-lg border-none rounded-full outline-none"
+                  placeholder="Enter your breed"
+                  defaultValue={searchedBreed}
+                  onChange={(e) => setSearchedBreed(e.target.value)}
+                />
+                <div className="absolute right-8">
+                  <SearchIcon />
+                </div>
+              </div>
               {breeds.length > 0 && (
                 <ul className="flex flex-col bg-white p-4 rounded-3xl max-h-[15rem] overflow-auto no-scrollbar">
                   {breeds.map((breed) => (
                     <li
                       key={breed.id}
-                      className="py-4 px-4 rounded-2xl text-primary-gray-700 hover:bg-primary-inputItem"
+                      className="py-4 px-4 rounded-2xl  text-primary-gray-700 hover:bg-primary-inputItem cursor-pointer transition-colors duration-300"
                     >
-                      {breed.name}
+                      <Link
+                        href={`/breed/${breed.id}`}
+                        className="block h-full w-full"
+                      >
+                        {breed.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>

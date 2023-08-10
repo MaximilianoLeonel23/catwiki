@@ -9,6 +9,10 @@
   fill: white;
 }
 
+.searchIconDark svg path {
+  @apply fill-primary-gray-700;
+}
+
 @layer utilities {
   @variants responsive {
     /* Hide scrollbar for Chrome, Safari and Opera */
