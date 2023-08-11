@@ -2,28 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-.logoWhite svg {
+.logoWhite svg path {
+	fill: white;
 }
 
-.logoWhite svg path {
-  fill: white;
+.logoBig svg {
+	width: 75%;
+	height: 50%;
+}
+
+.contentLg {
+	content: 'Enter your breed';
+}
+
+.contentSmall {
+	content: 'Search';
 }
 
 .searchIconDark svg path {
-  @apply fill-primary-gray-700;
+	@apply fill-primary-gray-700;
 }
 
 @layer utilities {
-  @variants responsive {
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
+	@variants responsive {
+		/* Hide scrollbar for Chrome, Safari and Opera */
+		.no-scrollbar::-webkit-scrollbar {
+			display: none;
+		}
 
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
-  }
+		/* Hide scrollbar for IE, Edge and Firefox */
+		.no-scrollbar {
+			-ms-overflow-style: none; /* IE and Edge */
+			scrollbar-width: none; /* Firefox */
+		}
+	}
+}
+
+.bg-cat {
+	@media (max-width: 640px) {
+		background-image: url('../assets/images/HeroImagesm.png');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	@media (min-width: 641px) and (max-width: 1023px) {
+		background-image: url('../assets/images/HeroImagemd.png');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	@media (min-width: 1024px) {
+		background-image: url('../assets/images/HeroImagelg.png');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
 }
