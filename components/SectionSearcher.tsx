@@ -4,27 +4,13 @@ import { LogoSvg } from '@/assets/images/images';
 import { Breed } from '@/types/types';
 import { SearchIcon } from '@/assets/icons/icons';
 import Link from 'next/link';
+import BreedSearcher from './BreedSearcher';
+import { useSearchContext } from '@/context/search.context';
+
 const SectionSearcher = () => {
 	const [searchedBreed, setSearchedBreed] = useState<string>('');
 	const [breeds, setBreeds] = useState<Breed[]>([]);
-	const [screenSize, setScreenSize] = useState<number>(
-		getCurrentDimension(),
-	);
-
-	function getCurrentDimension() {
-		return window.innerWidth;
-	}
-
-	useEffect(() => {
-		const updateDimension = () => {
-			setScreenSize(getCurrentDimension());
-		};
-
-		window.addEventListener('resize', updateDimension);
-		return () => {
-			window.removeEventListener('resize', updateDimension);
-		};
-	}, [screenSize]);
+	const { setOpenSearcher } = useSearchContext();
 
 	useEffect(() => {
 		const handleSearcherByBreed = async () => {
@@ -33,7 +19,7 @@ const SectionSearcher = () => {
 					`https://api.thecatapi.com/v1/breeds`,
 				);
 				const data: Breed[] = await response.json();
-				console.log(searchedBreed);
+
 				const filteredBreed = data.filter(breed =>
 					breed.name
 						.toLowerCase()
@@ -64,16 +50,25 @@ const SectionSearcher = () => {
 								Get to know about your cat breed
 							</h1>
 						</div>
-						<div className='flex flex-col gap-y-4'>
+						<div className='sm:hidden'>
+							<div className=''>
+								<button
+									className='relative flex items-center w-full py-2 px-4 searchIconDark bg-white text-primary-gray-700 text-xs border-none rounded-full'
+									onClick={() => setOpenSearcher(true)}
+								>
+									Search
+									<div className='absolute right-[10%]'>
+										<SearchIcon />
+									</div>
+								</button>
+							</div>
+						</div>
+						<div className='relative hidden sm:flex flex-col gap-y-4'>
 							<div className='relative flex items-center searchIconDark'>
 								<input
 									type='text'
 									className='w-full py-2 px-4 sm:py-4 sm:px-8  text-primary-gray-700 placeholder:text-primary-gray-700 placeholder:text-xs text-xs sm:placeholder:text-lg sm:text-lg border-none rounded-full outline-none'
-									placeholder={
-										screenSize < 600
-											? 'Search'
-											: 'Enter your breed'
-									}
+									placeholder={'Enter your breed'}
 									defaultValue={searchedBreed}
 									onChange={e => setSearchedBreed(e.target.value)}
 								/>
@@ -82,7 +77,7 @@ const SectionSearcher = () => {
 								</div>
 							</div>
 							{breeds.length > 0 && (
-								<ul className='flex flex-col bg-white p-4 rounded-3xl max-h-[15rem] overflow-auto no-scrollbar'>
+								<ul className='absolute top-24 left-0 w-full flex flex-col bg-white p-4 rounded-3xl max-h-[15rem] overflow-auto no-scrollbar'>
 									{breeds.map(breed => (
 										<li
 											key={breed.id}
@@ -99,6 +94,12 @@ const SectionSearcher = () => {
 								</ul>
 							)}
 						</div>
+						<BreedSearcher
+							breeds={breeds}
+							setBreeds={setBreeds}
+							searchedBreed={searchedBreed}
+							setSearchedBreed={setSearchedBreed}
+						/>
 					</div>
 				</div>
 			</div>
