@@ -26,9 +26,12 @@ const BreedSearcher: React.FC<Props> = ({
 				<div className='bg-white py-8 container fixed top-0 left-0 w-full min-h-screen z-30 sm:hidden'>
 					<div className='flex flex-col gap-y-8'>
 						<div className='flex justify-end'>
-							<div className='bg-primary-inputItem rounded-lg p-2'>
+							<button
+								className='bg-primary-inputItem rounded-lg p-2'
+								onClick={() => setOpenSearcher(false)}
+							>
 								<CrossIcon />
-							</div>
+							</button>
 						</div>
 						<div className='relative flex items-center searchIconDark'>
 							<input
@@ -42,23 +45,26 @@ const BreedSearcher: React.FC<Props> = ({
 								<SearchIcon />
 							</div>
 						</div>
-						{breeds.length > 0 && (
-							<ul className='absolute top-24 left-0 w-full flex flex-col bg-white p-4 rounded-3xl max-h-[15rem] overflow-auto no-scrollbar'>
-								{breeds.map(breed => (
-									<li
-										key={breed.id}
-										className='py-4 px-4 rounded-2xl text-lg  text-primary-gray-700 hover:bg-primary-inputItem cursor-pointer transition-colors duration-300'
-									>
-										<Link
-											href={`/breed/${breed.id}`}
-											className='block h-full w-full'
+						<div>
+							{breeds.length > 0 && (
+								<ul className='w-full flex flex-col bg-white py-4 rounded-3xl h-screen overflow-auto no-scrollbar'>
+									{breeds.map(breed => (
+										<li
+											key={breed.id}
+											className='py-4 px-4 rounded-2xl text-lg  text-primary-gray-700 hover:bg-primary-inputItem cursor-pointer transition-colors duration-300'
+											onClick={() => setOpenSearcher(false)}
 										>
-											{breed.name}
-										</Link>
-									</li>
-								))}
-							</ul>
-						)}
+											<Link
+												href={`/breed/${breed.id}`}
+												className='block h-full w-full'
+											>
+												{breed.name}
+											</Link>
+										</li>
+									))}
+								</ul>
+							)}
+						</div>
 					</div>
 				</div>
 			) : null}
