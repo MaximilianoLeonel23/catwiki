@@ -1,54 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Divider from './Divider';
 import { ArrowIcon } from '@/assets/icons/icons';
-import { getTopBreeds } from '@/lib/getTopBreeds';
-import { getBreeds } from '@/lib/getBreeds';
-import { useEffect } from 'react';
-import { getSingleBreed } from '@/lib/getSingleBreed';
-import { BreedInfo } from '@/types/types';
+import { TopSearchedContext, useTopSearchedBreedContext } from '@/context/topSearchedBreed.context';
 
-type TopBreedsData = {
-	[key: string]: number;
-};
-
-interface TopBreeds {
-	breedInfo: BreedInfo;
-	breedPhotos: string[];
-}
-
-const SectionAllBreeds = () => {
-	const [topBreeds, setTopBreeds] = useState<any>();
-
-	useEffect(() => {
-		async function fetchData() {
-			try {
-				const topBreedsData: TopBreedsData = await getTopBreeds();
-				const allBreedsData = await getBreeds();
-
-				if (!allBreedsData) return;
-
-				const filteredAndSortedBreeds = allBreedsData
-					.filter(breed => topBreedsData.hasOwnProperty(breed.name))
-					.sort((a, b) => topBreedsData[b.name] - topBreedsData[a.name]);
-
-				const breedPhotoPromises = filteredAndSortedBreeds.map(async breed => {
-					const singleBreed = await getSingleBreed(breed.id);
-					return singleBreed !== null ? singleBreed : undefined;
-				});
-
-				const breedData = await Promise.all(breedPhotoPromises);
-
-				const validBreedData = breedData.filter(data => data !== undefined);
-
-				setTopBreeds(validBreedData);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-
-		fetchData();
-	}, []);
+const SectionAllBreeds: React.FC = () => {
+	const { topBreeds } = useTopSearchedBreedContext() as TopSearchedContext;
 
 	return (
 		<section>
@@ -65,7 +22,7 @@ const SectionAllBreeds = () => {
 					</div>
 					<div>
 						<a
-							href=''
+							href='/breed/top-10-breeds'
 							className='hidden sm:flex items-center gap-x-2 text-lg font-bold text-primary-gray-700 opacity-60'
 						>
 							SEE MORE

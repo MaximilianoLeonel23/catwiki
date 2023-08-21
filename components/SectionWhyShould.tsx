@@ -5,6 +5,7 @@ import image3 from '@/assets/images/image 3.png';
 import Divider from '@/components/Divider';
 import Image from 'next/image';
 import { ArrowIcon } from '@/assets/icons/icons';
+
 const SectionWhyShould: React.FC = () => {
 	return (
 		<section className='grid grid-cols-1 sm:grid-cols-2 gap-16  items-center py-16 sm:p-24'>
@@ -16,9 +17,8 @@ const SectionWhyShould: React.FC = () => {
 					</h2>
 				</div>
 				<p className='text-lg text-primary-gray-700'>
-					Having a cat around you can actually trigger the release of
-					calming chemicals in your body which lower your stress and
-					anxiety leves
+					Having a cat around you can actually trigger the release of calming chemicals in your body
+					which lower your stress and anxiety leves
 				</p>
 				<a
 					href=''
@@ -31,17 +31,9 @@ const SectionWhyShould: React.FC = () => {
 			<div className='columns-2'>
 				<Image src={image2} alt='imagen de gato' className='mb-4' />
 				<div className='flex justify-end'>
-					<Image
-						src={image1}
-						alt='imagen de gato'
-						className='mb-4 w-3/4'
-					/>
+					<Image src={image1} alt='imagen de gato' className='mb-4 w-3/4' />
 				</div>
-				<Image
-					src={image3}
-					alt='imagen de gato'
-					className='mb-4 h-4/5'
-				/>
+				<Image src={image3} alt='imagen de gato' className='mb-4 h-4/5' />
 			</div>
 		</section>
 	);

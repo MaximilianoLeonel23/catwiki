@@ -12,12 +12,7 @@ interface Props {
 	setSearchedBreed: Dispatch<SetStateAction<string>>;
 }
 
-const BreedSearcher: React.FC<Props> = ({
-	breeds,
-	setBreeds,
-	searchedBreed,
-	setSearchedBreed,
-}) => {
+const BreedSearcher: React.FC<Props> = ({ breeds, setBreeds, searchedBreed, setSearchedBreed }) => {
 	const { openSearcher, setOpenSearcher } = useSearchContext();
 
 	return (
@@ -54,10 +49,7 @@ const BreedSearcher: React.FC<Props> = ({
 											className='py-4 px-4 rounded-2xl text-lg  text-primary-gray-700 hover:bg-primary-inputItem cursor-pointer transition-colors duration-300'
 											onClick={() => setOpenSearcher(false)}
 										>
-											<Link
-												href={`/breed/${breed.id}`}
-												className='block h-full w-full'
-											>
+											<Link href={`/breed/${breed.id}`} className='block h-full w-full'>
 												{breed.name}
 											</Link>
 										</li>

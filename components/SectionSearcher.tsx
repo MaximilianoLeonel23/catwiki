@@ -7,7 +7,7 @@ import Link from 'next/link';
 import BreedSearcher from './BreedSearcher';
 import { useSearchContext } from '@/context/search.context';
 import { getBreeds } from '@/lib/getBreeds';
-
+import { postSearchedBreed } from '@/lib/postSearchedBreed';
 const SectionSearcher = () => {
 	const [searchedBreed, setSearchedBreed] = useState<string>('');
 	const [breeds, setBreeds] = useState<Breed[]>([]);
@@ -33,23 +33,6 @@ const SectionSearcher = () => {
 		};
 		handleSearcherByBreed();
 	}, [searchedBreed]);
-
-	const handleMostSearchedBreeds = async (breed: Breed) => {
-		try {
-			const response = await fetch(`http://localhost:3000/api/breeds/ranking`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ breed: breed.name }),
-			});
-			if (response.ok) {
-				console.log('Se envio correctamente la busqueda');
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
 
 	return (
 		<section>
@@ -100,7 +83,7 @@ const SectionSearcher = () => {
 											<Link
 												href={`/breed/${breed.id}`}
 												className='block h-full w-full'
-												onClick={() => handleMostSearchedBreeds(breed)}
+												onClick={() => postSearchedBreed(breed)}
 											>
 												{breed.name}
 											</Link>
