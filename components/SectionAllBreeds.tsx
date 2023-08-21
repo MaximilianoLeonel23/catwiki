@@ -1,35 +1,50 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Divider from './Divider';
 import { ArrowIcon } from '@/assets/icons/icons';
 import { getTopBreeds } from '@/lib/getTopBreeds';
 import { getBreeds } from '@/lib/getBreeds';
-import { Breed, BreedDetails } from '@/types/types';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { getSingleBreed } from '@/lib/getSingleBreed';
+import { BreedInfo } from '@/types/types';
 
-type TopBreeds = {
+type TopBreedsData = {
 	[key: string]: number;
 };
 
+interface TopBreeds {
+	breedInfo: BreedInfo;
+	breedPhotos: string[];
+}
+
 const SectionAllBreeds = () => {
-	const [topBreeds, setTopBreeds] = useState<TopBreeds>({});
-	const [allBreeds, setAllBreeds] = useState<Breed[]>([]);
-	const [filteredAndSortedBreeds, setFilteredAndSortedBreeds] = useState<Breed[]>();
+	const [topBreeds, setTopBreeds] = useState<any>();
 
 	useEffect(() => {
 		async function fetchData() {
-			const topBreedsData = await getTopBreeds();
-			const allBreedsData = await getBreeds();
-			if (topBreedsData && allBreedsData) {
-				setTopBreeds(topBreedsData);
-				setAllBreeds(allBreedsData);
+			try {
+				const topBreedsData: TopBreedsData = await getTopBreeds();
+				const allBreedsData = await getBreeds();
+
+				if (!allBreedsData) return;
+
+				const filteredAndSortedBreeds = allBreedsData
+					.filter(breed => topBreedsData.hasOwnProperty(breed.name))
+					.sort((a, b) => topBreedsData[b.name] - topBreedsData[a.name]);
+
+				const breedPhotoPromises = filteredAndSortedBreeds.map(async breed => {
+					const singleBreed = await getSingleBreed(breed.id);
+					return singleBreed !== null ? singleBreed : undefined;
+				});
+
+				const breedData = await Promise.all(breedPhotoPromises);
+
+				const validBreedData = breedData.filter(data => data !== undefined);
+
+				setTopBreeds(validBreedData);
+			} catch (err) {
+				console.log(err);
 			}
-
-			const filteredAndSortedBreeds = allBreeds
-				.filter(breed => topBreeds.hasOwnProperty(breed.name))
-				.sort((a, b) => topBreeds[b.name] - topBreeds[a.name]);
-
-			console.log(filteredAndSortedBreeds);
 		}
 
 		fetchData();
@@ -58,7 +73,22 @@ const SectionAllBreeds = () => {
 						</a>
 					</div>
 				</div>
-				<div></div>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-8'>
+					{topBreeds &&
+						topBreeds.slice(0, 4).map(function (breed: any) {
+							return (
+								<div className='flex flex-col gap-4'>
+									<img
+										src={breed.breedPhotos[0]}
+										className='h-full w-full object-cover object-center rounded-3xl'
+									/>
+									<p className='text-sm lg:text-lg text-primary-gray-700 font-semibold'>
+										{breed.breedInfo.name}
+									</p>
+								</div>
+							);
+						})}
+				</div>
 			</div>
 		</section>
 	);
