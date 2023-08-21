@@ -1,10 +1,5 @@
 'use client';
-import {
-	SetStateAction,
-	createContext,
-	useContext,
-	useState,
-} from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const SearchContext = createContext<SearchContext | null>(null);
 
@@ -15,8 +10,7 @@ interface SearchContext {
 
 export const useSearchContext = () => {
 	const context = useContext(SearchContext);
-	if (!context)
-		throw new Error('El contexto debe iniciarse con el provider');
+	if (!context) throw new Error('El contexto debe iniciarse con el provider');
 	return context;
 };
 

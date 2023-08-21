@@ -6,6 +6,7 @@ import { SearchIcon } from '@/assets/icons/icons';
 import Link from 'next/link';
 import BreedSearcher from './BreedSearcher';
 import { useSearchContext } from '@/context/search.context';
+import { getBreeds } from '@/lib/getBreeds';
 
 const SectionSearcher = () => {
 	const [searchedBreed, setSearchedBreed] = useState<string>('');
@@ -15,15 +16,11 @@ const SectionSearcher = () => {
 	useEffect(() => {
 		const handleSearcherByBreed = async () => {
 			try {
-				const response = await fetch(
-					`https://api.thecatapi.com/v1/breeds`,
-				);
-				const data: Breed[] = await response.json();
+				const data = await getBreeds();
+				if (!data) return;
 
 				const filteredBreed = data.filter(breed =>
-					breed.name
-						.toLowerCase()
-						.includes(searchedBreed.toLowerCase()),
+					breed.name.toLowerCase().includes(searchedBreed.toLowerCase()),
 				);
 				if (!searchedBreed) {
 					setBreeds([]);
@@ -36,6 +33,23 @@ const SectionSearcher = () => {
 		};
 		handleSearcherByBreed();
 	}, [searchedBreed]);
+
+	const handleMostSearchedBreeds = async (breed: Breed) => {
+		try {
+			const response = await fetch(`http://localhost:3000/api/breeds/ranking`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ breed: breed.name }),
+			});
+			if (response.ok) {
+				console.log('Se envio correctamente la busqueda');
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<section>
@@ -86,6 +100,7 @@ const SectionSearcher = () => {
 											<Link
 												href={`/breed/${breed.id}`}
 												className='block h-full w-full'
+												onClick={() => handleMostSearchedBreeds(breed)}
 											>
 												{breed.name}
 											</Link>

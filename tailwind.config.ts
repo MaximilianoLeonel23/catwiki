@@ -36,6 +36,9 @@ const config: Config = {
 			fontSize: {
 				xxs: '10px',
 			},
+			gridTemplateColumns: {
+				'4min': 'repeat(4, minmax(160px, 1fr))',
+			},
 		},
 	},
 	plugins: [],

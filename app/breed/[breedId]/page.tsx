@@ -1,75 +1,25 @@
-'use client';
-import { BreedDetails, BreedInfo } from '@/types/types';
-import React, { useEffect, useState } from 'react';
+import { BreedInfo } from '@/types/types';
 import { capitalizeString } from '@/helpers/capitalize';
+import { getSingleBreed } from '@/lib/getSingleBreed';
 interface Params {
 	params: {
 		breedId: string;
 	};
 }
-const SingleBreed: React.FC<Params> = ({ params }) => {
-	const [breedDetails, setBreedDetails] = useState<BreedInfo>();
-	const [breedPhotos, setBreedPhotos] = useState<string[]>([]);
-	const API_KEY = 'live_Jc4iWcT5N4QOGBmDxbjqoSXf45xl7pBttppSz1GfI3m2GO3VLt5ah7oY1RrCWuHN';
 
-	useEffect(() => {
-		const getBreed = async (params: string) => {
-			if (!params) return;
-			try {
-				const response = await fetch(
-					`https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${params}&api_key=${API_KEY}`,
-				);
-				const data: BreedDetails[] = await response.json();
-				const { breeds } = data[0];
-				const {
-					name,
-					description,
-					temperament,
-					origin,
-					life_span,
-					adaptability,
-					affection_level,
-					child_friendly,
-					grooming,
-					intelligence,
-					health_issues,
-					social_needs,
-					stranger_friendly,
-				} = breeds[0];
+const SingleBreed: React.FC<Params> = async ({ params }) => {
+	const data = await getSingleBreed(params.breedId);
 
-				const breedInfo: BreedInfo = {
-					name,
-					description,
-					temperament,
-					origin,
-					life_span,
-					adaptability,
-					affection_level,
-					child_friendly,
-					grooming,
-					intelligence,
-					health_issues,
-					social_needs,
-					stranger_friendly,
-				};
+	if (!data) return;
 
-				setBreedDetails(breedInfo);
-				const breedPhotos = data.map(breed => {
-					return breed.url;
-				});
-				setBreedPhotos(breedPhotos);
-			} catch (err) {
-				console.log(err);
-			}
-		};
+	const breedDetails: BreedInfo = data.breedInfo;
+	const breedPhotos: string[] = data.breedPhotos;
 
-		getBreed(params.breedId);
-	}, []);
 	return (
 		<main className='container'>
 			<div className='flex flex-col'>
-				<section className='flex flex-col sm:flex-row gap-y-8 gap-x-24 items-start sm:px-24 py-16'>
-					<div className='relative w-full sm:w-1/3'>
+				<section className='flex flex-col lg:flex-row gap-y-8 gap-x-24 items-start sm:px-24 py-16'>
+					<div className='relative w-full lg:w-1/3'>
 						<img src={breedPhotos[0]} className='w-full h-full object-cover object-center rounded-3xl' />
 						<div className='grid place-items-center absolute top-0 -left-4 h-full -z-10'>
 							<div className='bg-primary-golden w-16 h-4/5 rounded-2xl'></div>
@@ -85,7 +35,7 @@ const SingleBreed: React.FC<Params> = ({ params }) => {
 									.map(([property, value]) => (
 										<li
 											key={property}
-											className='w-full flex flex-col sm:flex-row items-center gap-y-4 gap-x-8'
+											className='w-full flex flex-col sm:flex-row lg:items-center gap-y-4 gap-x-8'
 										>
 											<p className='font-bold text-black'>{capitalizeString(property.replace('_', ' '))}:</p>
 											{typeof value === 'string' ? (
@@ -109,7 +59,7 @@ const SingleBreed: React.FC<Params> = ({ params }) => {
 				</section>
 				<section className='flex flex-col gap-y-8 py-8 sm:py-24'>
 					<h4 className='text-4xl text-primary-gray-700 font-semibold'>Other photos</h4>
-					<div className='grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 '>
+					<div className='grid grid-cols-2 sm:grid-cols-4min grid-flow-dense auto-rows-auto gap-4 sm:gap-8 '>
 						{breedPhotos &&
 							breedPhotos.slice(1).map((photoUrl, idx) => (
 								<div key={idx}>
