@@ -2,7 +2,7 @@ import { BreedDetails, BreedInfo } from '@/types/types';
 
 export const getSingleBreed = async (params: string) => {
 	try {
-		const res = await fetch(`${process.env.HOST_URL}/api/breeds/${params}`);
+		const res = await fetch(`${process.env.API_URL}/breeds/${params}`);
 		const data: BreedDetails[] = await res.json();
 
 		const { breeds } = data[0];

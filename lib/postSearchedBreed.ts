@@ -2,7 +2,7 @@ import { Breed } from '@/types/types';
 
 export const postSearchedBreed = async (breed: Breed) => {
 	try {
-		const response = await fetch(`${process.env.HOST_URL}/api/breeds/ranking`, {
+		const response = await fetch(`${process.env.HOST_URL}/breeds/ranking`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
