@@ -35,9 +35,9 @@
 
 ## Overview
 
-![screenshot](https://github.com/MaximilianoLeonel23/my-unsplash/blob/main/assets/images/catwiki_1.png)
-![screenshot](https://github.com/MaximilianoLeonel23/my-unsplash/blob/main/assets/images/catwiki_2.png)
-![screenshot](https://github.com/MaximilianoLeonel23/my-unsplash/blob/main/assets/images/catwiki_3.png)
+![screenshot](https://github.com/MaximilianoLeonel23/catwiki/blob/main/assets/images/catwiki_1.png)
+![screenshot](https://github.com/MaximilianoLeonel23/catwiki/blob/main/assets/images/catwiki_2.png)
+![screenshot](https://github.com/MaximilianoLeonel23/catwiki/blob/main/assets/images/catwiki_3.png)
 
 This is a Catwiki, an app where you can look up more than 66 cat breeds. It has a top breed list with your last searches. Additionally, each breed has lots of information and stats, with photos of those pretty cats.
 
