@@ -25,8 +25,6 @@ export async function POST(request: NextRequest) {
 
 		fs.writeFileSync(breedCountsPath, JSON.stringify(breedCounts, null, 2));
 
-		console.log('Breeds counts updated:', breedCounts);
-
 		NextResponse.json({ status: 200, message: 'Search count increased successfully' });
 	} catch (err) {
 		NextResponse.json({ status: 500, message: 'Error increasing search count' });

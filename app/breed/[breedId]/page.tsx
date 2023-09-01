@@ -10,11 +10,9 @@ interface Params {
 }
 
 const SingleBreed: React.FC<Params> = async ({ params }) => {
-	console.log(`Se esta llamando a ${params.breedId}`);
 	const data = await getSingleBreed(params.breedId);
 
 	if (!data) return;
-	console.log('Se esta mostrando la data', data);
 
 	const breedDetails: BreedInfo = data.breedInfo;
 	const breedPhotos: string[] = data.breedPhotos;

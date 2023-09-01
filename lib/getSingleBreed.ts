@@ -2,7 +2,6 @@ import { BreedDetails, BreedInfo } from '@/types/types';
 
 export const getSingleBreed = async (params: string) => {
 	try {
-		console.log(`Se esta llamando a ${params}`);
 		const res = await fetch(`/api/breeds/${params}`);
 		const data: BreedDetails[] = await res.json();
 
@@ -43,7 +42,6 @@ export const getSingleBreed = async (params: string) => {
 		const breedPhotos: string[] = data.map(breed => {
 			return breed.url;
 		});
-		console.log(`Se va a devolver ${breedPhotos} y ${breedInfo}`);
 
 		return { breedInfo, breedPhotos };
 	} catch (error) {
